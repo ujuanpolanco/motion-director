@@ -1,0 +1,109 @@
+{
+  "source": "20 reference films measured with scripts/mdmeasure.py (10 launch films = 'launch', 10 brand intros / motion reels = 'intro'). Ranges are p10..p90 across films unless noted. See rules.md and measurements.md.",
+  "profiles": {
+    "launch": {
+      "read": {
+        "applies_from_font_pct_h": 4.0,
+        "max_words": 10,
+        "floor_base": 0.45, "floor_per_word": 0.13,
+        "target_base": 0.5, "target_per_word": 0.25
+      },
+      "plan": {
+        "shot_median_sec": [1.4, 3.6],
+        "shot_min_sec": 0.4,
+        "shot_max_sec": 8.0,
+        "end_hold_sec": 4.0,
+        "hard_cut_share": [0.45, 0.9],
+        "transition_kinds": [3, 6],
+        "dissolve_share_max": 0.05,
+        "max_words_on_screen": 8,
+        "font_pct_h": [6.0, 22.0],
+        "beat_tolerance_frames": 1,
+        "beat_share_min": 0.8,
+        "moves": {
+          "enter":   {"frames30": [6, 24], "eases": ["expo.out", "power4.out", "power3.out", "power2.out"]},
+          "ui":      {"frames30": [6, 24], "eases": ["expo.out", "power4.out", "power3.out", "power2.out"]},
+          "kinetic": {"frames30": [3, 18], "eases": ["expo.out", "power4.out", "power3.out"]},
+          "camera":  {"frames30": [8, 26], "eases": ["expo.inOut", "power3.inOut", "power2.inOut", "sine.inOut", "power4.inOut"]},
+          "exit":    {"frames30": [7, 20], "eases": ["expo.in", "power3.in", "power2.in", "power4.in"]}
+        }
+      },
+      "video": [
+        {"id": "shot-rhythm",     "metric": "shot_sec_median",   "min": 1.4,  "max": 3.6,  "level": "warn", "why": "median shot length"},
+        {"id": "cut-rate",        "metric": "cuts_per_min",      "min": 10,   "max": 27,   "level": "warn", "why": "cuts per minute"},
+        {"id": "hard-cut-share",  "metric": "hard_cut_share",    "min": 0.45, "max": 0.9,  "level": "warn", "why": "share of seams that are hard cuts"},
+        {"id": "too-static",      "metric": "still_time_frac",   "max": 0.6,  "level": "warn", "why": "share of frames where nothing moves"},
+        {"id": "too-busy",        "metric": "moving_frac_median","max": 0.09, "level": "warn", "why": "median share of the frame in motion"},
+        {"id": "move-rate",       "metric": "moves_per_sec",     "min": 0.3,  "max": 1.0,  "level": "warn", "why": "distinct moves per second"},
+        {"id": "eases-out",       "metric": "clean_share.out",   "min": 0.28, "level": "warn", "why": "share of clean moves on an ease-out"},
+        {"id": "no-linear",       "metric": "clean_share.linear","max": 0.06, "why": "linear moves (pros: 1%)"},
+        {"id": "tween-length",    "metric": "clean_tween_sec_median", "min": 0.25, "max": 0.75, "level": "warn", "why": "median tween length of clean moves"},
+        {"id": "palette",         "metric": "palette_n",         "max": 8,    "level": "warn", "why": "colours covering >=1% of the film"},
+        {"id": "core-palette",    "metric": "palette_core_n",    "max": 3,    "level": "warn", "why": "colours covering >=5%"},
+        {"id": "neutral",         "metric": "neutral_share",     "min": 0.8,  "level": "warn", "why": "share of the film in neutrals (chroma < 12)"},
+        {"id": "grounds",         "metric": "n_backgrounds",     "max": 3,    "level": "warn", "why": "distinct background colours"},
+        {"id": "headline-size",   "metric": "text.font_pct_h_p90","min": 8.0, "max": 22.0, "level": "warn", "why": "headline font size, % of frame height"},
+        {"id": "words-on-screen", "metric": "text.display_text_time_frac", "min": 0.5, "level": "warn", "why": "share of the film with display text"}
+      ],
+      "still": {
+        "max_display_words": 20,
+        "min_font_pct_h": 1.5,
+        "max_font_pct_h": 22.0,
+        "title_safe": 0.9,
+        "max_colors": 8,
+        "max_accents": 2,
+        "max_accent_share": 0.07
+      }
+    },
+    "intro": {
+      "read": {
+        "applies_from_font_pct_h": 4.0,
+        "max_words": 10,
+        "floor_base": 0.4, "floor_per_word": 0.06,
+        "target_base": 0.45, "target_per_word": 0.15
+      },
+      "plan": {
+        "shot_median_sec": [0.5, 1.6],
+        "shot_min_sec": 0.1,
+        "shot_max_sec": 3.5,
+        "end_hold_sec": 2.5,
+        "hard_cut_share": [0.5, 0.95],
+        "transition_kinds": [2, 5],
+        "dissolve_share_max": 0.05,
+        "max_words_on_screen": 7,
+        "font_pct_h": [6.0, 65.0],
+        "beat_tolerance_frames": 1,
+        "beat_share_min": 0.8,
+        "moves": {
+          "enter":   {"frames30": [5, 22], "eases": ["expo.out", "power4.out", "power3.out", "power2.out"]},
+          "ui":      {"frames30": [5, 22], "eases": ["expo.out", "power4.out", "power3.out", "power2.out"]},
+          "kinetic": {"frames30": [3, 15], "eases": ["expo.out", "power4.out", "power3.out", "expo.inOut"]},
+          "camera":  {"frames30": [4, 40], "eases": ["expo.inOut", "power3.inOut", "power2.inOut", "sine.inOut", "power4.inOut"]},
+          "exit":    {"frames30": [4, 17], "eases": ["expo.in", "power3.in", "power2.in", "power4.in"]}
+        }
+      },
+      "video": [
+        {"id": "shot-rhythm",     "metric": "shot_sec_median",   "min": 0.5,  "max": 1.6,  "level": "warn", "why": "median shot length (one-take films: ignore)"},
+        {"id": "cut-rate",        "metric": "cuts_per_min",      "min": 25,   "max": 75,   "level": "warn", "why": "cuts per minute (one-take films: ignore)"},
+        {"id": "too-static",      "metric": "still_time_frac",   "max": 0.45, "level": "warn", "why": "share of frames where nothing moves"},
+        {"id": "motion-amount",   "metric": "moving_frac_median","min": 0.02, "max": 0.13, "level": "warn", "why": "median share of the frame in motion"},
+        {"id": "eases-out",       "metric": "clean_share.out",   "min": 0.25, "level": "warn", "why": "share of clean moves on an ease-out"},
+        {"id": "no-linear",       "metric": "clean_share.linear","max": 0.12, "why": "linear moves (pros: 3%)"},
+        {"id": "tween-length",    "metric": "clean_tween_sec_median", "min": 0.18, "max": 0.6, "level": "warn", "why": "median tween length of clean moves"},
+        {"id": "fast-moves",      "metric": "move_peak_fw_s_p90","min": 1.5,  "level": "warn", "why": "the fastest tenth of moves, frame widths per second"},
+        {"id": "palette",         "metric": "palette_n",         "min": 4,    "max": 16,   "level": "warn", "why": "colours covering >=1% of the film"},
+        {"id": "neutral",         "metric": "neutral_share",     "min": 0.43, "level": "warn", "why": "share of the film in neutrals"},
+        {"id": "headline-size",   "metric": "text.font_pct_h_p90","min": 7.0, "level": "warn", "why": "headline font size, % of frame height"}
+      ],
+      "still": {
+        "max_display_words": 10,
+        "min_font_pct_h": 2.2,
+        "max_font_pct_h": 65.0,
+        "title_safe": 0.9,
+        "max_colors": 16,
+        "max_accents": 4,
+        "max_accent_share": 0.18
+      }
+    }
+  }
+}
